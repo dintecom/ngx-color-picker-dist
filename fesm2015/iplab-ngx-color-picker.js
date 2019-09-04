@@ -715,7 +715,7 @@ class Color {
         /**
          * try to find color by name in table
          */
-        let rgba = ColorsTable[colorString] || null;
+        let rgba = ColorsTable[str] || null;
         /**
          * hex find
          */

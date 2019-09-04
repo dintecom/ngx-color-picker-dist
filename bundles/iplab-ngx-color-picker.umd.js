@@ -942,7 +942,7 @@
             /**
              * try to find color by name in table
              */
-            var rgba = ColorsTable[colorString] || null;
+            var rgba = ColorsTable[str] || null;
             /**
              * hex find
              */
