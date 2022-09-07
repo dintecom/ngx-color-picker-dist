@@ -3,12 +3,7 @@
   "description": "",
   "homepage": "https://github.com/pIvan/ngx-color-picker",
   "bugs": "https://github.com/pIvan/ngx-color-picker/issues",
-  "version": "1.0.2",
-  "main": "bundles/iplab-ngx-color-picker.umd.js",
-  "module": "fesm5/iplab-ngx-color-picker.js",
-  "es2015": "fesm2015/iplab-ngx-color-picker.js",
-  "typings": "iplab-ngx-color-picker.d.ts",
-  "metadata": "iplab-ngx-color-picker.metadata.json",
+  "version": "14.1.0",
   "author": "Ivan Pintar",
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -23,51 +18,31 @@
     "url": "https://github.com/pIvan/ngx-color-picker.git"
   },
   "peerDependencies": {
-    "@angular/animations": "^8.0.0",
-    "typescript": "3.4.5"
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0",
+    "@angular/animations": "^14.0.0"
   },
+  "module": "fesm2015/iplab-ngx-color-picker.mjs",
+  "es2020": "fesm2020/iplab-ngx-color-picker.mjs",
+  "esm2020": "esm2020/iplab-ngx-color-picker.mjs",
+  "fesm2020": "fesm2020/iplab-ngx-color-picker.mjs",
+  "fesm2015": "fesm2015/iplab-ngx-color-picker.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/iplab-ngx-color-picker.mjs",
+      "es2020": "./fesm2020/iplab-ngx-color-picker.mjs",
+      "es2015": "./fesm2015/iplab-ngx-color-picker.mjs",
+      "node": "./fesm2015/iplab-ngx-color-picker.mjs",
+      "default": "./fesm2020/iplab-ngx-color-picker.mjs"
+    }
+  },
+  "sideEffects": false,
   "dependencies": {
-    "tslib": "^1.9.0"
-  },
-  "devDependencies": {
-    "@angular-devkit/build-angular": "~0.800.0",
-    "@angular/animations": "^8.0.0",
-    "@angular/cli": "~8.0.2",
-    "@angular/common": "^8.0.0",
-    "@angular/compiler": "^8.0.0",
-    "@angular/compiler-cli": "^8.0.0",
-    "@angular/core": "^8.0.0",
-    "@angular/forms": "^8.0.0",
-    "@angular/language-service": "^8.0.0",
-    "@angular/platform-browser": "^8.0.0",
-    "@angular/platform-browser-dynamic": "^8.0.0",
-    "@angular/router": "^8.0.0",
-    "@types/jasmine": "~2.8.6",
-    "@types/jasminewd2": "~2.0.3",
-    "@types/node": "~8.9.4",
-    "bootstrap": "4.0.0-alpha.6",
-    "codelyzer": "^5.0.1",
-    "core-js": "^2.5.4",
-    "google-code-prettify": "1.0.5",
-    "jasmine-core": "~2.99.1",
-    "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~1.7.1",
-    "karma-chrome-launcher": "~2.2.0",
-    "karma-coverage-istanbul-reporter": "~2.0.0",
-    "karma-jasmine": "~1.1.1",
-    "karma-jasmine-html-reporter": "^0.2.2",
-    "ng-packagr": "^5.1.0",
-    "tsickle": "^0.35.0",
-    "protractor": "~5.4.0",
-    "rxjs": "^6.5.2",
-    "ts-node": "~5.0.1",
-    "tslint": "~5.9.1",
-    "typescript": "3.4.5",
-    "zone.js": "~0.9.1"
-  },
-  "esm5": "esm5/iplab-ngx-color-picker.js",
-  "esm2015": "esm2015/iplab-ngx-color-picker.js",
-  "fesm5": "fesm5/iplab-ngx-color-picker.js",
-  "fesm2015": "fesm2015/iplab-ngx-color-picker.js",
-  "sideEffects": false
+    "tslib": "^2.3.0"
+  }
 }

@@ -1,0 +1,71 @@
+import { Component, Input, ChangeDetectionStrategy, Inject, Output, EventEmitter, HostBinding } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { OpacityAnimation, ListAnimation } from './color-preset-sublist.animation';
+import { fromEvent, merge } from 'rxjs';
+import * as i0 from "@angular/core";
+import * as i1 from "@angular/common";
+import * as i2 from "../color-preset/color-preset.component";
+import * as i3 from "../../../pipes/reverse.pipe";
+export class ColorPresetSublist {
+    constructor(document, cdr) {
+        this.document = document;
+        this.cdr = cdr;
+        this.selectionChange = new EventEmitter(false);
+        this.direction = 'up';
+        this.showChildren = false;
+        this.subscriptions = [];
+    }
+    ngOnDestroy() {
+        this.removeListeners();
+        this.cdr.detach();
+    }
+    removeListeners() {
+        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subscriptions.length = 0;
+    }
+    /**
+     * emit color change
+     */
+    onSelectionChange(color) {
+        this.selectionChange.next(color);
+    }
+    onLongPress() {
+        this.showChildren = true;
+        this.listenDocumentEvents();
+    }
+    listenDocumentEvents() {
+        this.subscriptions.push(merge(fromEvent(this.document, 'mousedown'), fromEvent(this.document, 'touchstart', { passive: true }))
+            .subscribe(() => this.closeList()));
+    }
+    closeList() {
+        if (this.showChildren) {
+            this.showChildren = false;
+            this.cdr.markForCheck();
+            this.removeListeners();
+        }
+    }
+    get className() {
+        return `direction-${this.direction}`;
+    }
+}
+ColorPresetSublist.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "14.0.1", ngImport: i0, type: ColorPresetSublist, deps: [{ token: DOCUMENT }, { token: i0.ChangeDetectorRef }], target: i0.ɵɵFactoryTarget.Component });
+ColorPresetSublist.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "14.0.0", version: "14.0.1", type: ColorPresetSublist, selector: "color-preset-sublist", inputs: { list: "list", direction: "direction", activeColor: "activeColor" }, outputs: { selectionChange: "selectionChange" }, host: { properties: { "className": "this.className" } }, ngImport: i0, template: "<color-preset [show-depth-title]=\"list.length > 1\" [color]=\"list[0]\" [activeColor]=\"activeColor\" (longPress)=\"onLongPress()\" (selectionChange)=\"onSelectionChange($event)\"></color-preset>\n<div class=\"reflection\" [style.backgroundColor]=\"list[0].toRgbaString()\"></div>\n<div class=\"reflection\" [style.backgroundColor]=\"list[0].toRgbaString()\"></div>\n\n<div class=\"sublist\" *ngIf=\"showChildren\" [@opacityAnimation]=\"showChildren\" [@listAnimation]=\"direction\">\n    <color-preset \n        *ngFor=\"let preset of list | reverse : (direction == 'up' || direction == 'right')\"\n        [color]=\"preset\"\n        [activeColor]=\"activeColor\"\n        (selectionChange)=\"onSelectionChange($event)\"></color-preset>\n</div>", styles: [":host,:host ::ng-deep *{padding:0;margin:0;box-sizing:border-box}\n", ":host{position:relative;display:inline-block}color-preset{position:relative;z-index:3}.reflection{display:none;position:absolute;height:100%;width:100%;z-index:2;right:-2px;top:-2px;opacity:.5}.reflection+.reflection{opacity:.2;right:-4px;top:-4px;z-index:1}color-preset:hover+.reflection,color-preset:hover+.reflection+.reflection{display:block}.sublist{position:absolute;bottom:-8px;left:-8px;right:-8px;background:#fff;border-radius:2px;box-shadow:#0000004d 0 0 2px,#0000004d 0 2px 4px;padding:8px 5px;text-align:center;z-index:1000}.sublist color-preset{margin:8px 0 0}.sublist color-preset:first-child{margin:0}:host(.direction-down) .sublist{bottom:auto;top:-8px}\n"], dependencies: [{ kind: "directive", type: i1.NgForOf, selector: "[ngFor][ngForOf]", inputs: ["ngForOf", "ngForTrackBy", "ngForTemplate"] }, { kind: "directive", type: i1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }, { kind: "component", type: i2.ColorPresetComponent, selector: "color-preset", inputs: ["activeColor", "color", "show-depth-title"], outputs: ["selectionChange", "longPress"] }, { kind: "pipe", type: i3.ReversePipe, name: "reverse" }], animations: [OpacityAnimation, ListAnimation], changeDetection: i0.ChangeDetectionStrategy.OnPush });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.0.1", ngImport: i0, type: ColorPresetSublist, decorators: [{
+            type: Component,
+            args: [{ selector: `color-preset-sublist`, changeDetection: ChangeDetectionStrategy.OnPush, animations: [OpacityAnimation, ListAnimation], template: "<color-preset [show-depth-title]=\"list.length > 1\" [color]=\"list[0]\" [activeColor]=\"activeColor\" (longPress)=\"onLongPress()\" (selectionChange)=\"onSelectionChange($event)\"></color-preset>\n<div class=\"reflection\" [style.backgroundColor]=\"list[0].toRgbaString()\"></div>\n<div class=\"reflection\" [style.backgroundColor]=\"list[0].toRgbaString()\"></div>\n\n<div class=\"sublist\" *ngIf=\"showChildren\" [@opacityAnimation]=\"showChildren\" [@listAnimation]=\"direction\">\n    <color-preset \n        *ngFor=\"let preset of list | reverse : (direction == 'up' || direction == 'right')\"\n        [color]=\"preset\"\n        [activeColor]=\"activeColor\"\n        (selectionChange)=\"onSelectionChange($event)\"></color-preset>\n</div>", styles: [":host,:host ::ng-deep *{padding:0;margin:0;box-sizing:border-box}\n", ":host{position:relative;display:inline-block}color-preset{position:relative;z-index:3}.reflection{display:none;position:absolute;height:100%;width:100%;z-index:2;right:-2px;top:-2px;opacity:.5}.reflection+.reflection{opacity:.2;right:-4px;top:-4px;z-index:1}color-preset:hover+.reflection,color-preset:hover+.reflection+.reflection{display:block}.sublist{position:absolute;bottom:-8px;left:-8px;right:-8px;background:#fff;border-radius:2px;box-shadow:#0000004d 0 0 2px,#0000004d 0 2px 4px;padding:8px 5px;text-align:center;z-index:1000}.sublist color-preset{margin:8px 0 0}.sublist color-preset:first-child{margin:0}:host(.direction-down) .sublist{bottom:auto;top:-8px}\n"] }]
+        }], ctorParameters: function () { return [{ type: undefined, decorators: [{
+                    type: Inject,
+                    args: [DOCUMENT]
+                }] }, { type: i0.ChangeDetectorRef }]; }, propDecorators: { list: [{
+                type: Input
+            }], selectionChange: [{
+                type: Output
+            }], direction: [{
+                type: Input
+            }], activeColor: [{
+                type: Input
+            }], className: [{
+                type: HostBinding,
+                args: ['className']
+            }] } });
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29sb3ItcHJlc2V0LXN1Ymxpc3QuY29tcG9uZW50LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vLi4vcHJvamVjdHMvaXBsYWIvbmd4LWNvbG9yLXBpY2tlci9zcmMvbGliL2NvbXBvbmVudHMvcGFydHMvY29sb3ItcHJlc2V0LXN1Ymxpc3QvY29sb3ItcHJlc2V0LXN1Ymxpc3QuY29tcG9uZW50LnRzIiwiLi4vLi4vLi4vLi4vLi4vLi4vLi4vcHJvamVjdHMvaXBsYWIvbmd4LWNvbG9yLXBpY2tlci9zcmMvbGliL2NvbXBvbmVudHMvcGFydHMvY29sb3ItcHJlc2V0LXN1Ymxpc3QvY29sb3ItcHJlc2V0LXN1Ymxpc3QuY29tcG9uZW50Lmh0bWwiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxFQUNILFNBQVMsRUFDVCxLQUFLLEVBQ0wsdUJBQXVCLEVBQ3ZCLE1BQU0sRUFHTixNQUFNLEVBQ04sWUFBWSxFQUNaLFdBQVcsRUFDZCxNQUFNLGVBQWUsQ0FBQztBQUN2QixPQUFPLEVBQUUsUUFBUSxFQUFFLE1BQU0saUJBQWlCLENBQUM7QUFFM0MsT0FBTyxFQUFFLGdCQUFnQixFQUFFLGFBQWEsRUFBRSxNQUFNLGtDQUFrQyxDQUFDO0FBQ25GLE9BQU8sRUFBRSxTQUFTLEVBQUUsS0FBSyxFQUFnQixNQUFNLE1BQU0sQ0FBQzs7Ozs7QUFZdEQsTUFBTSxPQUFPLGtCQUFrQjtJQWtCM0IsWUFDdUMsUUFBUSxFQUMxQixHQUFzQjtRQURKLGFBQVEsR0FBUixRQUFRLENBQUE7UUFDMUIsUUFBRyxHQUFILEdBQUcsQ0FBbUI7UUFkcEMsb0JBQWUsR0FBRyxJQUFJLFlBQVksQ0FBUSxLQUFLLENBQUMsQ0FBQztRQUdqRCxjQUFTLEdBQXFDLElBQUksQ0FBQztRQUtuRCxpQkFBWSxHQUFZLEtBQUssQ0FBQztRQUU3QixrQkFBYSxHQUFtQixFQUFFLENBQUM7SUFLM0MsQ0FBQztJQUVNLFdBQVc7UUFDZCxJQUFJLENBQUMsZUFBZSxFQUFFLENBQUM7UUFDdkIsSUFBSSxDQUFDLEdBQUcsQ0FBQyxNQUFNLEVBQUUsQ0FBQztJQUN0QixDQUFDO0lBRU8sZUFBZTtRQUNuQixJQUFJLENBQUMsYUFBYSxDQUFDLE9BQU8sQ0FBQyxDQUFDLFlBQVksRUFBRSxFQUFFLENBQUMsWUFBWSxDQUFDLFdBQVcsRUFBRSxDQUFDLENBQUM7UUFDekUsSUFBSSxDQUFDLGFBQWEsQ0FBQyxNQUFNLEdBQUcsQ0FBQyxDQUFDO0lBQ2xDLENBQUM7SUFFRDs7T0FFRztJQUNJLGlCQUFpQixDQUFDLEtBQVk7UUFDakMsSUFBSSxDQUFDLGVBQWUsQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUM7SUFDckMsQ0FBQztJQUVNLFdBQVc7UUFDZCxJQUFJLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQztRQUN6QixJQUFJLENBQUMsb0JBQW9CLEVBQUUsQ0FBQztJQUNoQyxDQUFDO0lBRU8sb0JBQW9CO1FBQ3hCLElBQUksQ0FBQyxhQUFhLENBQUMsSUFBSSxDQUNuQixLQUFLLENBQ0QsU0FBUyxDQUFDLElBQUksQ0FBQyxRQUFRLEVBQUUsV0FBVyxDQUFDLEVBQ3JDLFNBQVMsQ0FBQyxJQUFJLENBQUMsUUFBUSxFQUFFLFlBQVksRUFBRSxFQUFFLE9BQU8sRUFBRSxJQUFJLEVBQUUsQ0FBQyxDQUM1RDthQUNBLFNBQVMsQ0FBQyxHQUFHLEVBQUUsQ0FBQyxJQUFJLENBQUMsU0FBUyxFQUFFLENBQUMsQ0FDckMsQ0FBQztJQUNOLENBQUM7SUFFTyxTQUFTO1FBQ2IsSUFBSSxJQUFJLENBQUMsWUFBWSxFQUFFO1lBQ25CLElBQUksQ0FBQyxZQUFZLEdBQUcsS0FBSyxDQUFDO1lBQzFCLElBQUksQ0FBQyxHQUFHLENBQUMsWUFBWSxFQUFFLENBQUM7WUFDeEIsSUFBSSxDQUFDLGVBQWUsRUFBRSxDQUFDO1NBQzFCO0lBQ0wsQ0FBQztJQUVELElBQ1csU0FBUztRQUNoQixPQUFPLGFBQWEsSUFBSSxDQUFDLFNBQVMsRUFBRSxDQUFDO0lBQ3pDLENBQUM7OytHQWxFUSxrQkFBa0Isa0JBbUJmLFFBQVE7bUdBbkJYLGtCQUFrQixvUEMxQi9CLDZ1QkFVTSw2dENEY1UsQ0FBQyxnQkFBZ0IsRUFBRSxhQUFhLENBQUM7MkZBRXBDLGtCQUFrQjtrQkFWOUIsU0FBUzsrQkFDSSxzQkFBc0IsbUJBTWYsdUJBQXVCLENBQUMsTUFBTSxjQUNuQyxDQUFDLGdCQUFnQixFQUFFLGFBQWEsQ0FBQzs7MEJBcUJ4QyxNQUFNOzJCQUFDLFFBQVE7NEVBaEJiLElBQUk7c0JBRFYsS0FBSztnQkFJQyxlQUFlO3NCQURyQixNQUFNO2dCQUlBLFNBQVM7c0JBRGYsS0FBSztnQkFJQyxXQUFXO3NCQURqQixLQUFLO2dCQXFESyxTQUFTO3NCQURuQixXQUFXO3VCQUFDLFdBQVciLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQge1xuICAgIENvbXBvbmVudCxcbiAgICBJbnB1dCxcbiAgICBDaGFuZ2VEZXRlY3Rpb25TdHJhdGVneSxcbiAgICBJbmplY3QsXG4gICAgT25EZXN0cm95LFxuICAgIENoYW5nZURldGVjdG9yUmVmLFxuICAgIE91dHB1dCxcbiAgICBFdmVudEVtaXR0ZXIsXG4gICAgSG9zdEJpbmRpbmdcbn0gZnJvbSAnQGFuZ3VsYXIvY29yZSc7XG5pbXBvcnQgeyBET0NVTUVOVCB9IGZyb20gJ0Bhbmd1bGFyL2NvbW1vbic7XG5pbXBvcnQgeyBDb2xvciB9IGZyb20gJy4vLi4vLi4vLi4vaGVscGVycy9jb2xvci5jbGFzcyc7XG5pbXBvcnQgeyBPcGFjaXR5QW5pbWF0aW9uLCBMaXN0QW5pbWF0aW9uIH0gZnJvbSAnLi9jb2xvci1wcmVzZXQtc3VibGlzdC5hbmltYXRpb24nO1xuaW1wb3J0IHsgZnJvbUV2ZW50LCBtZXJnZSwgU3Vic2NyaXB0aW9uIH0gZnJvbSAncnhqcyc7XG5cbkBDb21wb25lbnQoe1xuICAgIHNlbGVjdG9yOiBgY29sb3ItcHJlc2V0LXN1Ymxpc3RgLFxuICAgIHRlbXBsYXRlVXJsOiBgLi9jb2xvci1wcmVzZXQtc3VibGlzdC5jb21wb25lbnQuaHRtbGAsXG4gICAgc3R5bGVVcmxzOiBbXG4gICAgICAgIGAuLy4uL2Jhc2Uuc3R5bGUuc2Nzc2AsXG4gICAgICAgIGAuL2NvbG9yLXByZXNldC1zdWJsaXN0LmNvbXBvbmVudC5zY3NzYFxuICAgIF0sXG4gICAgY2hhbmdlRGV0ZWN0aW9uOiBDaGFuZ2VEZXRlY3Rpb25TdHJhdGVneS5PblB1c2gsXG4gICAgYW5pbWF0aW9uczogW09wYWNpdHlBbmltYXRpb24sIExpc3RBbmltYXRpb25dXG59KVxuZXhwb3J0IGNsYXNzIENvbG9yUHJlc2V0U3VibGlzdCBpbXBsZW1lbnRzIE9uRGVzdHJveSB7XG5cbiAgICBASW5wdXQoKVxuICAgIHB1YmxpYyBsaXN0OiBBcnJheTxDb2xvcj47XG5cbiAgICBAT3V0cHV0KClcbiAgICBwdWJsaWMgc2VsZWN0aW9uQ2hhbmdlID0gbmV3IEV2ZW50RW1pdHRlcjxDb2xvcj4oZmFsc2UpO1xuXG4gICAgQElucHV0KClcbiAgICBwdWJsaWMgZGlyZWN0aW9uOiAnZG93bicgfCAndXAnIHwgJ2xlZnQnIHwgJ3JpZ2h0JyA9ICd1cCc7XG5cbiAgICBASW5wdXQoKVxuICAgIHB1YmxpYyBhY3RpdmVDb2xvcjogQ29sb3I7XG5cbiAgICBwdWJsaWMgc2hvd0NoaWxkcmVuOiBib29sZWFuID0gZmFsc2U7XG5cbiAgICBwcml2YXRlIHN1YnNjcmlwdGlvbnM6IFN1YnNjcmlwdGlvbltdID0gW107XG5cbiAgICBjb25zdHJ1Y3RvcihcbiAgICAgICAgQEluamVjdChET0NVTUVOVCkgcHJpdmF0ZSByZWFkb25seSBkb2N1bWVudCxcbiAgICAgICAgcHJpdmF0ZSByZWFkb25seSBjZHI6IENoYW5nZURldGVjdG9yUmVmKSB7XG4gICAgfVxuXG4gICAgcHVibGljIG5nT25EZXN0cm95KCk6IHZvaWQge1xuICAgICAgICB0aGlzLnJlbW92ZUxpc3RlbmVycygpO1xuICAgICAgICB0aGlzLmNkci5kZXRhY2goKTtcbiAgICB9XG5cbiAgICBwcml2YXRlIHJlbW92ZUxpc3RlbmVycygpOiB2b2lkIHtcbiAgICAgICAgdGhpcy5zdWJzY3JpcHRpb25zLmZvckVhY2goKHN1YnNjcmlwdGlvbikgPT4gc3Vic2NyaXB0aW9uLnVuc3Vic2NyaWJlKCkpO1xuICAgICAgICB0aGlzLnN1YnNjcmlwdGlvbnMubGVuZ3RoID0gMDtcbiAgICB9XG5cbiAgICAvKipcbiAgICAgKiBlbWl0IGNvbG9yIGNoYW5nZVxuICAgICAqL1xuICAgIHB1YmxpYyBvblNlbGVjdGlvbkNoYW5nZShjb2xvcjogQ29sb3IpOiB2b2lkIHtcbiAgICAgICAgdGhpcy5zZWxlY3Rpb25DaGFuZ2UubmV4dChjb2xvcik7XG4gICAgfVxuXG4gICAgcHVibGljIG9uTG9uZ1ByZXNzKCk6IHZvaWQge1xuICAgICAgICB0aGlzLnNob3dDaGlsZHJlbiA9IHRydWU7XG4gICAgICAgIHRoaXMubGlzdGVuRG9jdW1lbnRFdmVudHMoKTtcbiAgICB9XG5cbiAgICBwcml2YXRlIGxpc3RlbkRvY3VtZW50RXZlbnRzKCk6IHZvaWQge1xuICAgICAgICB0aGlzLnN1YnNjcmlwdGlvbnMucHVzaChcbiAgICAgICAgICAgIG1lcmdlKFxuICAgICAgICAgICAgICAgIGZyb21FdmVudCh0aGlzLmRvY3VtZW50LCAnbW91c2Vkb3duJyksXG4gICAgICAgICAgICAgICAgZnJvbUV2ZW50KHRoaXMuZG9jdW1lbnQsICd0b3VjaHN0YXJ0JywgeyBwYXNzaXZlOiB0cnVlIH0pXG4gICAgICAgICAgICApXG4gICAgICAgICAgICAuc3Vic2NyaWJlKCgpID0+IHRoaXMuY2xvc2VMaXN0KCkpXG4gICAgICAgICk7XG4gICAgfVxuXG4gICAgcHJpdmF0ZSBjbG9zZUxpc3QoKTogdm9pZCB7XG4gICAgICAgIGlmICh0aGlzLnNob3dDaGlsZHJlbikge1xuICAgICAgICAgICAgdGhpcy5zaG93Q2hpbGRyZW4gPSBmYWxzZTtcbiAgICAgICAgICAgIHRoaXMuY2RyLm1hcmtGb3JDaGVjaygpO1xuICAgICAgICAgICAgdGhpcy5yZW1vdmVMaXN0ZW5lcnMoKTtcbiAgICAgICAgfVxuICAgIH1cblxuICAgIEBIb3N0QmluZGluZygnY2xhc3NOYW1lJylcbiAgICBwdWJsaWMgZ2V0IGNsYXNzTmFtZSgpOiBzdHJpbmcge1xuICAgICAgICByZXR1cm4gYGRpcmVjdGlvbi0ke3RoaXMuZGlyZWN0aW9ufWA7XG4gICAgfVxufSIsIjxjb2xvci1wcmVzZXQgW3Nob3ctZGVwdGgtdGl0bGVdPVwibGlzdC5sZW5ndGggPiAxXCIgW2NvbG9yXT1cImxpc3RbMF1cIiBbYWN0aXZlQ29sb3JdPVwiYWN0aXZlQ29sb3JcIiAobG9uZ1ByZXNzKT1cIm9uTG9uZ1ByZXNzKClcIiAoc2VsZWN0aW9uQ2hhbmdlKT1cIm9uU2VsZWN0aW9uQ2hhbmdlKCRldmVudClcIj48L2NvbG9yLXByZXNldD5cbjxkaXYgY2xhc3M9XCJyZWZsZWN0aW9uXCIgW3N0eWxlLmJhY2tncm91bmRDb2xvcl09XCJsaXN0WzBdLnRvUmdiYVN0cmluZygpXCI+PC9kaXY+XG48ZGl2IGNsYXNzPVwicmVmbGVjdGlvblwiIFtzdHlsZS5iYWNrZ3JvdW5kQ29sb3JdPVwibGlzdFswXS50b1JnYmFTdHJpbmcoKVwiPjwvZGl2PlxuXG48ZGl2IGNsYXNzPVwic3VibGlzdFwiICpuZ0lmPVwic2hvd0NoaWxkcmVuXCIgW0BvcGFjaXR5QW5pbWF0aW9uXT1cInNob3dDaGlsZHJlblwiIFtAbGlzdEFuaW1hdGlvbl09XCJkaXJlY3Rpb25cIj5cbiAgICA8Y29sb3ItcHJlc2V0IFxuICAgICAgICAqbmdGb3I9XCJsZXQgcHJlc2V0IG9mIGxpc3QgfCByZXZlcnNlIDogKGRpcmVjdGlvbiA9PSAndXAnIHx8IGRpcmVjdGlvbiA9PSAncmlnaHQnKVwiXG4gICAgICAgIFtjb2xvcl09XCJwcmVzZXRcIlxuICAgICAgICBbYWN0aXZlQ29sb3JdPVwiYWN0aXZlQ29sb3JcIlxuICAgICAgICAoc2VsZWN0aW9uQ2hhbmdlKT1cIm9uU2VsZWN0aW9uQ2hhbmdlKCRldmVudClcIj48L2NvbG9yLXByZXNldD5cbjwvZGl2PiJdfQ==
